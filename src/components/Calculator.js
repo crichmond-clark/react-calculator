@@ -27,6 +27,11 @@ const Calculator = () => {
     setFullEquation(`${fullEquation + item}`);
   };
 
+  const removeFromEquation = () => {
+    const newEquation = fullEquation.slice(0, -1);
+    setFullEquation(newEquation);
+  };
+
   const addOperator = operator => {
     setOperators([...operators, operator]);
   };
@@ -87,7 +92,8 @@ const Calculator = () => {
     addToCurr,
     calculate,
     addToEquation,
-    setFullEquation
+    setFullEquation,
+    removeFromEquation
   };
 
   return (

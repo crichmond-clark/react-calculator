@@ -71,6 +71,7 @@ const Keypad = ({ states }) => {
 
   const {
     total,
+    operators,
     currNum,
     addToCurr,
     addOperator,
@@ -81,8 +82,11 @@ const Keypad = ({ states }) => {
     calculate,
     fullEquation,
     addToEquation,
-    setFullEquation
+    setFullEquation,
+    removeFromEquation
   } = states;
+
+  const opCheck = '+-÷×';
 
   //METHODS
   const doCalculation = () => {
@@ -93,18 +97,17 @@ const Keypad = ({ states }) => {
     }
   };
   const digitHandler = digit => {
-    addToCurr(digit);
-    addToEquation(digit);
+    if (!total || (total && operators.length === 1)) {
+      addToCurr(digit);
+      addToEquation(digit);
+    }
   };
-
-  const opCheck = '+-÷×';
   const operatorHandler = operator => {
     const check = fullEquation.slice(-1);
     if (!opCheck.includes(check)) {
       addToEquation(operator);
     }
-
-    if (currNum) {
+    if (currNum || (total && operators.length === 0)) {
       addOperator(operator);
     }
     if (!total && currNum) {
@@ -117,6 +120,9 @@ const Keypad = ({ states }) => {
   const equalsHandler = () => {
     doCalculation();
     removeOperator();
+    if (!currNum) {
+      removeFromEquation();
+    }
   };
 
   const resetHandler = () => {

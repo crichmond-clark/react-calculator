@@ -83,7 +83,10 @@ const Keypad = ({ states }) => {
     fullEquation,
     addToEquation,
     setFullEquation,
-    removeFromEquation
+    removeFromEquation,
+    removeFromCurr,
+    getLastItemEquation,
+    getLastItemCurr
   } = states;
 
   const opCheck = '+-÷×';
@@ -96,6 +99,14 @@ const Keypad = ({ states }) => {
       setCurrNum('');
     }
   };
+
+  const checkEquation = () => {
+    const check = fullEquation.slice(-1);
+    if (!opCheck.includes(check)) {
+      return true;
+    }
+  };
+
   const digitHandler = digit => {
     if (!total || (total && operators.length === 1)) {
       addToCurr(digit);
@@ -103,8 +114,10 @@ const Keypad = ({ states }) => {
     }
   };
   const operatorHandler = operator => {
-    const check = fullEquation.slice(-1);
-    if (!opCheck.includes(check)) {
+    if (getLastItemEquation() === '.' && getLastItemCurr() === '.') {
+      removeFromEquation(1);
+    }
+    if (checkEquation()) {
       addToEquation(operator);
     }
     if (currNum || (total && operators.length === 0)) {
@@ -114,12 +127,22 @@ const Keypad = ({ states }) => {
       setTotal(parseFloat(currNum));
       setCurrNum('');
     }
-    doCalculation();
+
+    if (currNum !== '.' && operators[0]) {
+      doCalculation();
+    }
   };
 
   const equalsHandler = () => {
     doCalculation();
     removeOperator();
+    if (getLastItemEquation() === '.') {
+      removeFromEquation(1);
+    }
+    if (operators[0] && total && !currNum) {
+      const num = currNum.length + 1;
+      removeFromEquation(num);
+    }
   };
 
   const resetHandler = () => {
@@ -130,7 +153,18 @@ const Keypad = ({ states }) => {
   };
 
   const deleteHandler = () => {
-    //empty
+    if (!currNum && operators[0] && !currNum) {
+      removeOperator();
+      removeFromEquation(1);
+    }
+    if (total === null) {
+      removeFromCurr();
+      removeFromEquation(1);
+    }
+    if (total && currNum && operators[0]) {
+      removeFromCurr();
+      removeFromEquation(1);
+    }
   };
   return (
     <KeypadContainer>

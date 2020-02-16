@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import tw from 'tailwind.macro';
-import PropTypes from 'prop-types';
+import PropTypes, { number } from 'prop-types';
 
 const Div = styled.div`
   ${tw`bg-gray-300 text-center p-10 rounded`};

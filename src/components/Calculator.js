@@ -18,18 +18,31 @@ const Calculator = () => {
   const [operators, setOperators] = useState([]);
   const [currNum, setCurrNum] = useState('');
   const [fullEquation, setFullEquation] = useState('');
-  const [tempEquation, setTempEquation] = useState('');
 
   const addToCurr = item => {
     setCurrNum(`${currNum + item}`);
+  };
+  const removeFromCurr = () => {
+    const newNum = currNum.slice(0, -1);
+    setCurrNum(`${newNum}`);
+  };
+
+  const getLastItemCurr = () => {
+    const check = currNum.slice(-1);
+    return check;
   };
   const addToEquation = item => {
     setFullEquation(`${fullEquation + item}`);
   };
 
-  const removeFromEquation = () => {
-    const newEquation = fullEquation.slice(0, -1);
+  const removeFromEquation = numOfChars => {
+    const newEquation = fullEquation.slice(0, -numOfChars);
     setFullEquation(newEquation);
+  };
+
+  const getLastItemEquation = () => {
+    const check = fullEquation.slice(-1);
+    return check;
   };
 
   const addOperator = operator => {
@@ -75,6 +88,7 @@ const Calculator = () => {
 
   const displayStates = {
     total,
+    setTotal,
     currNum,
     operators,
     fullEquation
@@ -93,7 +107,10 @@ const Calculator = () => {
     calculate,
     addToEquation,
     setFullEquation,
-    removeFromEquation
+    removeFromEquation,
+    removeFromCurr,
+    getLastItemEquation,
+    getLastItemCurr
   };
 
   return (

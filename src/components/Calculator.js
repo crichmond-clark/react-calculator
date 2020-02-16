@@ -18,14 +18,14 @@ const Calculator = () => {
   const [operators, setOperators] = useState([]);
   const [currNum, setCurrNum] = useState('');
   const [fullEquation, setFullEquation] = useState('');
-
+  const regex = /.*\..*\..*/;
   const addToCurr = item => {
     setCurrNum(`${currNum + item}`);
   };
-  const removeFromCurr = () => {
+  const removeFromCurr = useCallback(() => {
     const newNum = currNum.slice(0, -1);
     setCurrNum(`${newNum}`);
-  };
+  }, [currNum]);
 
   const getLastItemCurr = () => {
     const check = currNum.slice(-1);
@@ -35,10 +35,13 @@ const Calculator = () => {
     setFullEquation(`${fullEquation + item}`);
   };
 
-  const removeFromEquation = numOfChars => {
-    const newEquation = fullEquation.slice(0, -numOfChars);
-    setFullEquation(newEquation);
-  };
+  const removeFromEquation = useCallback(
+    numOfChars => {
+      const newEquation = fullEquation.slice(0, -numOfChars);
+      setFullEquation(newEquation);
+    },
+    [fullEquation]
+  );
 
   const getLastItemEquation = () => {
     const check = fullEquation.slice(-1);
@@ -64,7 +67,6 @@ const Calculator = () => {
       case '×':
         return multiply(num1, num2);
       default:
-        console.log('sorry invalid operation');
         break;
     }
   }, []);
@@ -85,6 +87,13 @@ const Calculator = () => {
       removeOperator();
     }
   }, [operators, removeOperator]);
+
+  useEffect(() => {
+    if (regex.test(currNum)) {
+      removeFromCurr();
+      removeFromEquation(1);
+    }
+  }, [currNum, regex, removeFromEquation, removeFromCurr]);
 
   const displayStates = {
     total,

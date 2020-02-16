@@ -132,6 +132,9 @@ const Keypad = ({ states }) => {
     setFullEquation('');
   };
 
+  const deleteHandler = () => {
+    //empty
+  };
   return (
     <KeypadContainer>
       <DigitPad>
@@ -168,7 +171,7 @@ const Keypad = ({ states }) => {
       </DigitPad>
       <OperatorPad>
         <Operator onClick={resetHandler}>{keypad.operators.reset}</Operator>
-        <Operator>{keypad.operators.delete}</Operator>
+        <Operator onClick={deleteHandler}>{keypad.operators.delete}</Operator>
         <Operator onClick={() => operatorHandler(keypad.operators.add)}>
           {keypad.operators.add}
         </Operator>

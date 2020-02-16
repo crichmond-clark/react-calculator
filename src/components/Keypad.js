@@ -120,9 +120,6 @@ const Keypad = ({ states }) => {
   const equalsHandler = () => {
     doCalculation();
     removeOperator();
-    if (!currNum) {
-      removeFromEquation();
-    }
   };
 
   const resetHandler = () => {

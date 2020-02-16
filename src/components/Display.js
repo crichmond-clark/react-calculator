@@ -9,10 +9,19 @@ const Div = styled.div`
 `;
 
 const Display = props => {
+  const checkTotal = () => {
+    let result;
+    if (Number.isNaN(props.states.total)) {
+      result = 'Error';
+    } else {
+      result = props.states.total;
+    }
+    return result;
+  };
   return (
     <Div>
       <div>{props.states.fullEquation}</div>
-      <span>{props.states.total}</span>
+      <span>{checkTotal()}</span>
       <span>{props.states.operators[0]}</span>
       <span>{props.states.currNum}</span>
     </Div>

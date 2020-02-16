@@ -92,6 +92,7 @@ const Keypad = ({ states }) => {
   const opCheck = '+-÷×';
 
   //METHODS
+
   const doCalculation = () => {
     if (total && currNum) {
       const result = calculate();
@@ -120,7 +121,10 @@ const Keypad = ({ states }) => {
     if (checkEquation()) {
       addToEquation(operator);
     }
-    if (currNum || (total && operators.length === 0)) {
+    if (
+      (currNum && getLastItemCurr() !== '.') ||
+      (total && operators.length === 0)
+    ) {
       addOperator(operator);
     }
     if (!total && currNum) {
@@ -128,7 +132,10 @@ const Keypad = ({ states }) => {
       setCurrNum('');
     }
 
-    if (currNum !== '.' && operators[0]) {
+    if (getLastItemCurr() === '.' && currNum.length === 1) {
+      removeFromEquation(1);
+      removeFromCurr();
+    } else {
       doCalculation();
     }
   };

@@ -4,9 +4,17 @@ import tw from 'tailwind.macro';
 import PropTypes, { number } from 'prop-types';
 
 const Div = styled.div`
-  ${tw`bg-gray-300 text-center p-10 rounded`};
+  ${tw`bg-gray-300 text-center p-10 rounded text-2xl`};
   grid-column: 1 / -1;
   height: 10vh;
+  overflow: hidden;
+  display: grid;
+`;
+
+const EquationDiv = styled.div`
+  justify-self: start;
+  align-self: start;
+  font-size: 10px;
 `;
 
 const Display = props => {
@@ -24,7 +32,7 @@ const Display = props => {
   };
   return (
     <Div>
-      <div>{props.states.fullEquation}</div>
+      <EquationDiv>{props.states.fullEquation}</EquationDiv>
       <span>{checkTotal()}</span>
       <span>{props.states.operators[0]}</span>
       <span>{props.states.currNum}</span>

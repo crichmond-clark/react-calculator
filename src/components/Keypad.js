@@ -23,19 +23,19 @@ const OperatorPad = styled.div`
 `;
 
 const Digit = styled.div`
-  ${tw`text-center bg-blue-200 p-5 rounded`};
+  ${tw`text-center bg-blue-200 p-5 rounded text-xl`};
   display: grid;
   align-content: center;
 `;
 const Digit0 = styled.div`
   grid-column: 1 / -1;
-  ${tw`text-center bg-blue-200 p-5 border-none rounded`};
+  ${tw`text-center bg-blue-200 p-5 border-none rounded text-xl`};
   display: grid;
   align-content: center;
 `;
 
 const Operator = styled.div`
-  ${tw`text-center bg-orange-200 rounded`};
+  ${tw`text-center bg-orange-200 rounded text-xl`};
   display: grid;
   align-content: center;
 `;

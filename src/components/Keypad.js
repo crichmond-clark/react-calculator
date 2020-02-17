@@ -189,21 +189,25 @@ const Keypad = ({ states }) => {
           callbackRef.current(e);
         }
       };
-      window.addEventListener('keypress', handle);
-      return () => window.removeEventListener('keypress', handle);
+      window.addEventListener('keyup', handle);
+      return () => window.removeEventListener('keyup', handle);
     }, [key]);
   };
+
   //KEYPRESS EVENTS
-  useKey('7', () => console.log('keypress'));
-  useKey('8', () => console.log('keypress'));
-  useKey('9', () => console.log('keypress'));
-  useKey('4', () => console.log('keypress'));
-  useKey('5', () => console.log('keypress'));
-  useKey('6', () => console.log('keypress'));
-  useKey('1', () => console.log('keypress'));
-  useKey('2', () => console.log('keypress'));
-  useKey('3', () => console.log('keypress'));
-  useKey('0', () => console.log('keypress'));
+  //Digits
+  useKey('7', () => digitHandler('7'));
+  useKey('8', () => digitHandler('8'));
+  useKey('9', () => digitHandler('9'));
+  useKey('4', () => digitHandler('4'));
+  useKey('5', () => digitHandler('5'));
+  useKey('6', () => digitHandler('6'));
+  useKey('1', () => digitHandler('1'));
+  useKey('2', () => digitHandler('2'));
+  useKey('3', () => digitHandler('3'));
+  useKey('0', () => digitHandler('0'));
+  //Operators
+  useKey('Backspace', () => digitHandler('9'));
 
   return (
     <KeypadContainer>

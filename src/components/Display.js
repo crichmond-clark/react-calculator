@@ -8,6 +8,7 @@ const Div = styled.div`
   grid-column: 1 / -1;
   height: 25vh;
   display: grid;
+  overflow: hidden;
 `;
 
 const EquationDiv = styled.div`

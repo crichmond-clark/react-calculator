@@ -93,11 +93,12 @@ const Keypad = ({ states }) => {
   //METHODS
 
   const doCalculation = () => {
-    if (total && currNum) {
+    if (total && Number.isNaN(parseFloat(currNum)) === false) {
       const result = calculate();
       setTotal(result);
       setCurrNum('');
     }
+    setCurrNum('');
   };
 
   const checkEquation = () => {
@@ -192,8 +193,8 @@ const Keypad = ({ states }) => {
 
     useEffect(() => {
       const handle = e => {
-        // e.preventDefault();
-        // // e.stopPropagation();
+        e.preventDefault();
+        // e.stopPropagation();
         if (e.key === key) {
           callbackRef.current(e);
         }

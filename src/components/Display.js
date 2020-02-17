@@ -4,17 +4,18 @@ import tw from 'tailwind.macro';
 import PropTypes, { number } from 'prop-types';
 
 const Div = styled.div`
-  ${tw`bg-gray-300 text-center p-10 rounded text-2xl`};
+  ${tw`bg-gray-300 text-center rounded text-2xl tracking-wider`};
   grid-column: 1 / -1;
-  height: 10vh;
+  height: 25vh;
   overflow: hidden;
   display: grid;
+  /* letter-spacing: 2px; */
 `;
 
 const EquationDiv = styled.div`
+  ${tw`text-sm p-1`}
   justify-self: start;
   align-self: start;
-  font-size: 10px;
 `;
 
 const Display = props => {
@@ -33,9 +34,13 @@ const Display = props => {
   return (
     <Div>
       <EquationDiv>{props.states.fullEquation}</EquationDiv>
-      <span>{checkTotal()}</span>
-      <span>{props.states.operators[0]}</span>
-      <span>{props.states.currNum}</span>
+      <span>
+        {checkTotal()}
+        {props.states.operators[0]}
+        {props.states.currNum}
+      </span>
+      {/* <span>{props.states.operators[0]}</span>
+      <span>{props.states.currNum}</span> */}
     </Div>
   );
 };

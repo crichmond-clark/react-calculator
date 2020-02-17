@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import tw from 'tailwind.macro';
 import PropTypes from 'prop-types';
@@ -78,15 +78,14 @@ const Keypad = ({ states }) => {
     removeOperator,
     setTotal,
     setCurrNum,
-    setOperators,
     calculate,
     fullEquation,
     addToEquation,
-    setFullEquation,
     removeFromEquation,
     removeFromCurr,
     getLastItemEquation,
-    getLastItemCurr
+    getLastItemCurr,
+    reset
   } = states;
 
   const opCheck = '+-÷×';
@@ -108,7 +107,14 @@ const Keypad = ({ states }) => {
     }
   };
 
-  const digitHandler = digit => {
+  const keyPressHandler = event => {
+    if (event.key !== 'Enter') {
+      return;
+    }
+    this.props.theFunction(event.target.value);
+  };
+
+  const digitHandler = (digit, event) => {
     if (!total || (total && operators.length === 1)) {
       addToCurr(digit);
       addToEquation(digit);
@@ -153,10 +159,7 @@ const Keypad = ({ states }) => {
   };
 
   const resetHandler = () => {
-    setTotal(null);
-    setCurrNum('');
-    setOperators([]);
-    setFullEquation('');
+    reset();
   };
 
   const deleteHandler = () => {
@@ -173,6 +176,35 @@ const Keypad = ({ states }) => {
       removeFromEquation(1);
     }
   };
+  const useKey = (key, cb) => {
+    const callbackRef = useRef(cb);
+
+    useEffect(() => {
+      callbackRef.current = cb;
+    });
+
+    useEffect(() => {
+      const handle = e => {
+        if (e.key === key) {
+          callbackRef.current(e);
+        }
+      };
+      window.addEventListener('keypress', handle);
+      return () => window.removeEventListener('keypress', handle);
+    }, [key]);
+  };
+  //KEYPRESS EVENTS
+  useKey('7', () => console.log('keypress'));
+  useKey('8', () => console.log('keypress'));
+  useKey('9', () => console.log('keypress'));
+  useKey('4', () => console.log('keypress'));
+  useKey('5', () => console.log('keypress'));
+  useKey('6', () => console.log('keypress'));
+  useKey('1', () => console.log('keypress'));
+  useKey('2', () => console.log('keypress'));
+  useKey('3', () => console.log('keypress'));
+  useKey('0', () => console.log('keypress'));
+
   return (
     <KeypadContainer>
       <DigitPad>

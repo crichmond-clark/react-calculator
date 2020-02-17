@@ -82,6 +82,12 @@ const Calculator = () => {
     return result;
   };
 
+  const reset = () => {
+    setTotal(null);
+    setCurrNum('');
+    setOperators([]);
+    setFullEquation('');
+  };
   useEffect(() => {
     if (operators.length > 1) {
       removeOperator();
@@ -94,6 +100,12 @@ const Calculator = () => {
       removeFromEquation(1);
     }
   }, [currNum, regex, removeFromEquation, removeFromCurr]);
+
+  // useEffect(() => {
+  //   if (Number.isNaN(total)) {
+  //     reset();
+  //   }
+  // }, [total]);
 
   const displayStates = {
     total,
@@ -119,7 +131,8 @@ const Calculator = () => {
     removeFromEquation,
     removeFromCurr,
     getLastItemEquation,
-    getLastItemCurr
+    getLastItemCurr,
+    reset
   };
 
   return (

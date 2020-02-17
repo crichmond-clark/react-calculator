@@ -122,31 +122,35 @@ const Keypad = ({ states }) => {
     }
   };
   const operatorHandler = operator => {
-    if (getLastItemEquation() === '.' && getLastItemCurr() === '.') {
-      removeFromEquation(1);
-    }
-    if (checkEquation()) {
-      addToEquation(operator);
-    }
-    if (total === 0 || fullEquation === '') {
-      addOperator(operator);
-      addToEquation(operator);
-    }
-    if (
-      (currNum && getLastItemCurr() !== '.') ||
-      (total && operators.length === 0)
-    ) {
-      addOperator(operator);
-    }
-    if (!total && currNum) {
-      setTotal(parseFloat(currNum));
-      setCurrNum('');
-    }
-    if (getLastItemCurr() === '.' && currNum.length === 1) {
-      removeFromEquation(1);
-      removeFromCurr();
+    if (operators[0] && operator === '-') {
+      addToCurr(operator);
     } else {
-      doCalculation();
+      if (getLastItemEquation() === '.' && getLastItemCurr() === '.') {
+        removeFromEquation(1);
+      }
+      if (checkEquation()) {
+        addToEquation(operator);
+      }
+      if (total === 0 || fullEquation === '') {
+        addOperator(operator);
+        addToEquation(operator);
+      }
+      if (
+        (currNum && getLastItemCurr() !== '.') ||
+        (total && operators.length === 0)
+      ) {
+        addOperator(operator);
+      }
+      if (!total && currNum) {
+        setTotal(parseFloat(currNum));
+        setCurrNum('');
+      }
+      if (getLastItemCurr() === '.' && currNum.length === 1) {
+        removeFromEquation(1);
+        removeFromCurr();
+      } else {
+        doCalculation();
+      }
     }
   };
 

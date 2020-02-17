@@ -202,7 +202,6 @@ const Keypad = ({ states }) => {
     useEffect(() => {
       const handle = e => {
         e.preventDefault();
-        // e.stopPropagation();
         if (e.key === key) {
           callbackRef.current(e);
         }

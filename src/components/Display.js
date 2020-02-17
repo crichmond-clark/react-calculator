@@ -41,7 +41,7 @@ const Display = props => {
         (props.states.currNum || props.states.operators[0] === '-')
           ? null
           : checkTotal()}
-        {props.states.operators[0]}
+        {checkTotal() === 'Error' ? null : props.states.operators[0]}
         {props.states.currNum}
       </span>
     </Div>

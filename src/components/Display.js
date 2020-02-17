@@ -11,6 +11,9 @@ const Div = styled.div`
 const Display = props => {
   const checkTotal = () => {
     let result;
+    if (props.states.total === null && props.states.currNum === '') {
+      result = 0;
+    }
     if (Number.isNaN(props.states.total)) {
       result = 'Error';
     } else {

@@ -107,17 +107,20 @@ const Keypad = ({ states }) => {
     }
   };
 
-  const keyPressHandler = event => {
-    if (event.key !== 'Enter') {
-      return;
+  const digitHandler = digit => {
+    if (total === 0) {
+      setTotal(null);
     }
-    this.props.theFunction(event.target.value);
-  };
-
-  const digitHandler = (digit, event) => {
-    if (!total || (total && operators.length === 1)) {
+    if (!total || (total && operators.length >= 1)) {
       addToCurr(digit);
       addToEquation(digit);
+    }
+  };
+
+  const decimalHandler = () => {
+    if (getLastItemCurr() !== '.') {
+      addToCurr(keypad.operators.decimal);
+      addToEquation(keypad.operators.decimal);
     }
   };
   const operatorHandler = operator => {
@@ -190,7 +193,7 @@ const Keypad = ({ states }) => {
         }
       };
       window.addEventListener('keyup', handle);
-      return () => window.removeEventListener('keyup', handle);
+      return () => window.removeEventListener('keypup', handle);
     }, [key]);
   };
 
@@ -206,8 +209,25 @@ const Keypad = ({ states }) => {
   useKey('2', () => digitHandler('2'));
   useKey('3', () => digitHandler('3'));
   useKey('0', () => digitHandler('0'));
+  useKey('.', decimalHandler);
   //Operators
-  useKey('Backspace', () => digitHandler('9'));
+  useKey(keypad.operators.add, () => operatorHandler(keypad.operators.add));
+  useKey(keypad.operators.subtract, () =>
+    operatorHandler(keypad.operators.subtract)
+  );
+  useKey(keypad.operators.divide, () =>
+    operatorHandler(keypad.operators.divide)
+  );
+  useKey('/', () => operatorHandler(keypad.operators.divide));
+  //multiplication keypress
+  useKey('*', () => operatorHandler(keypad.operators.multiply));
+  useKey('X', () => operatorHandler(keypad.operators.multiply));
+  useKey('x', () => operatorHandler(keypad.operators.multiply));
+  //equals keypress
+  useKey(keypad.operators.equals, equalsHandler);
+  useKey('Enter', equalsHandler);
+  //delete keypress
+  useKey('Backspace', deleteHandler);
 
   return (
     <KeypadContainer>
@@ -258,9 +278,7 @@ const Keypad = ({ states }) => {
         <Operator onClick={() => operatorHandler(keypad.operators.divide)}>
           {keypad.operators.divide}
         </Operator>
-        <Operator onClick={() => digitHandler(keypad.operators.decimal)}>
-          {keypad.operators.decimal}
-        </Operator>
+        <Operator onClick={decimalHandler}>{keypad.operators.decimal}</Operator>
         <Operator onClick={equalsHandler}>{keypad.operators.equals}</Operator>
       </OperatorPad>
     </KeypadContainer>

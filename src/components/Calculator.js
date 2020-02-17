@@ -14,7 +14,7 @@ const Div = styled.div`
 `;
 
 const Calculator = () => {
-  const [total, setTotal] = useState(null);
+  const [total, setTotal] = useState(0);
   const [operators, setOperators] = useState([]);
   const [currNum, setCurrNum] = useState('');
   const [fullEquation, setFullEquation] = useState('');
@@ -93,19 +93,6 @@ const Calculator = () => {
       removeOperator();
     }
   }, [operators, removeOperator]);
-
-  useEffect(() => {
-    if (regex.test(currNum)) {
-      removeFromCurr();
-      removeFromEquation(1);
-    }
-  }, [currNum, regex, removeFromEquation, removeFromCurr]);
-
-  // useEffect(() => {
-  //   if (Number.isNaN(total)) {
-  //     reset();
-  //   }
-  // }, [total]);
 
   const displayStates = {
     total,

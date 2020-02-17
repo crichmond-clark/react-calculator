@@ -18,12 +18,13 @@ const EquationDiv = styled.div`
   align-self: start;
 `;
 
+const HiddenDiv = styled.div`
+  display: ${props => (props.states.currNumm ? 'hidden' : 'inline-block')};
+`;
+
 const Display = props => {
   const checkTotal = () => {
     let result;
-    if (props.states.total === null && props.states.currNum === '') {
-      result = 0;
-    }
     if (Number.isNaN(props.states.total)) {
       result = 'Error';
     } else {
@@ -35,12 +36,10 @@ const Display = props => {
     <Div>
       <EquationDiv>{props.states.fullEquation}</EquationDiv>
       <span>
-        {checkTotal()}
+        {props.states.total === 0 && props.states.currNum ? null : checkTotal()}
         {props.states.operators[0]}
         {props.states.currNum}
       </span>
-      {/* <span>{props.states.operators[0]}</span>
-      <span>{props.states.currNum}</span> */}
     </Div>
   );
 };

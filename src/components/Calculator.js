@@ -5,7 +5,7 @@ import Display from './Display';
 import Keypad from './Keypad';
 
 const Div = styled.div`
-  ${tw`text-gray-600 border-black border-solid p-1 rounded`};
+  ${tw`text-gray-600 border-black border-solid p-1`};
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-column: 2 / 3;
@@ -85,7 +85,7 @@ const Calculator = () => {
   };
 
   const reset = () => {
-    setTotal(null);
+    setTotal(0);
     setCurrNum('');
     setOperators([]);
     setFullEquation('');

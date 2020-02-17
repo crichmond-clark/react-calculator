@@ -93,7 +93,7 @@ const Keypad = ({ states }) => {
   //METHODS
 
   const doCalculation = () => {
-    if (total && Number.isNaN(parseFloat(currNum)) === false) {
+    if ((total && Number.isNaN(parseFloat(currNum)) === false) || total === 0) {
       const result = calculate();
       setTotal(result);
       setCurrNum('');
@@ -109,9 +109,6 @@ const Keypad = ({ states }) => {
   };
 
   const digitHandler = digit => {
-    if (total === 0) {
-      setTotal(null);
-    }
     if (!total || (total && operators.length === 1)) {
       addToCurr(digit);
       addToEquation(digit);
@@ -131,6 +128,10 @@ const Keypad = ({ states }) => {
     if (checkEquation()) {
       addToEquation(operator);
     }
+    if (total === 0 || fullEquation === '') {
+      addOperator(operator);
+      addToEquation(operator);
+    }
     if (
       (currNum && getLastItemCurr() !== '.') ||
       (total && operators.length === 0)
@@ -141,7 +142,6 @@ const Keypad = ({ states }) => {
       setTotal(parseFloat(currNum));
       setCurrNum('');
     }
-
     if (getLastItemCurr() === '.' && currNum.length === 1) {
       removeFromEquation(1);
       removeFromCurr();
@@ -171,7 +171,7 @@ const Keypad = ({ states }) => {
       removeOperator();
       removeFromEquation(1);
     }
-    if (total === null) {
+    if (total === 0) {
       removeFromCurr();
       removeFromEquation(1);
     }

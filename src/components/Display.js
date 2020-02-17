@@ -6,7 +6,7 @@ import PropTypes, { number } from 'prop-types';
 const Div = styled.div`
   ${tw`bg-gray-300 text-center p-10 rounded`};
   grid-column: 1 / -1;
-  /* height: 10vh; */
+  height: 10vh;
 `;
 
 const Display = props => {

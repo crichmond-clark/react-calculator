@@ -18,7 +18,6 @@ const Calculator = () => {
   const [operators, setOperators] = useState([]);
   const [currNum, setCurrNum] = useState('');
   const [fullEquation, setFullEquation] = useState('');
-  const regex = /.*\..*\..*/;
   const addToCurr = item => {
     setCurrNum(`${currNum + item}`);
   };
@@ -78,8 +77,11 @@ const Calculator = () => {
   }, [operators]);
 
   const calculate = () => {
-    let result = operate(operators[0], total, parseFloat(currNum));
-    result = Math.round(result);
+    let result;
+    if (currNum !== '.') {
+      result = 0;
+    }
+    result = operate(operators[0], total, parseFloat(currNum));
     return result;
   };
 

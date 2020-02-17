@@ -111,7 +111,7 @@ const Keypad = ({ states }) => {
     if (total === 0) {
       setTotal(null);
     }
-    if (!total || (total && operators.length >= 1)) {
+    if (!total || (total && operators.length === 1)) {
       addToCurr(digit);
       addToEquation(digit);
     }
@@ -188,8 +188,8 @@ const Keypad = ({ states }) => {
 
     useEffect(() => {
       const handle = e => {
-        e.preventDefault();
-        e.stopPropagation();
+        // e.preventDefault();
+        // // e.stopPropagation();
         if (e.key === key) {
           callbackRef.current(e);
         }
@@ -231,6 +231,8 @@ const Keypad = ({ states }) => {
   useKey('Enter', equalsHandler);
   //delete keypress
   useKey('Backspace', deleteHandler);
+  //reset keypress
+  useKey('F5', resetHandler);
 
   return (
     <KeypadContainer>

@@ -178,6 +178,10 @@ const Keypad = ({ states }) => {
       removeFromCurr();
       removeFromEquation(1);
     }
+    if (currNum === '.') {
+      removeFromCurr();
+      removeFromEquation(1);
+    }
   };
   const useKey = (key, cb) => {
     const callbackRef = useRef(cb);

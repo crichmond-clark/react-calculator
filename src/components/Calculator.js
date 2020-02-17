@@ -5,12 +5,13 @@ import Display from './Display';
 import Keypad from './Keypad';
 
 const Div = styled.div`
-  ${tw`text-gray-600`};
+  ${tw`text-gray-600 border-black border-solid p-1 rounded`};
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-column: 2 / 3;
   gap: 0.1rem;
   font-family: 'Varela Round', sans-serif;
+  border: 2px solid black;
 `;
 
 const Calculator = () => {

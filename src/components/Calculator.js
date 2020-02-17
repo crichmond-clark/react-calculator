@@ -94,6 +94,9 @@ const Calculator = () => {
     if (operators.length > 1) {
       removeOperator();
     }
+    if (fullEquation.length > 34) {
+      setFullEquation(operators[0]);
+    }
   }, [operators, removeOperator]);
 
   const displayStates = {

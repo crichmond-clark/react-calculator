@@ -1,25 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import tw from 'tailwind.macro';
-import PropTypes, { number } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const Div = styled.div`
   ${tw`bg-gray-300 text-center rounded text-2xl tracking-wider`};
   grid-column: 1 / -1;
   height: 25vh;
-  overflow: hidden;
   display: grid;
-  /* letter-spacing: 2px; */
 `;
 
 const EquationDiv = styled.div`
   ${tw`text-sm p-1`}
   justify-self: start;
   align-self: start;
-`;
-
-const HiddenDiv = styled.div`
-  display: ${props => (props.states.currNumm ? 'hidden' : 'inline-block')};
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const Display = props => {
@@ -34,9 +30,12 @@ const Display = props => {
   };
   return (
     <Div>
-      <EquationDiv>{props.states.fullEquation}</EquationDiv>
+      <EquationDiv className="mango">{props.states.fullEquation}</EquationDiv>
       <span>
-        {props.states.total === 0 && props.states.currNum ? null : checkTotal()}
+        {props.states.total === 0 &&
+        (props.states.currNum || props.states.operators[0] === '-')
+          ? null
+          : checkTotal()}
         {props.states.operators[0]}
         {props.states.currNum}
       </span>

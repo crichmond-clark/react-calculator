@@ -89,7 +89,6 @@ const Keypad = ({ states }) => {
   } = states;
 
   const opCheck = '+-÷×';
-
   //METHODS
 
   const doCalculation = () => {
@@ -123,7 +122,12 @@ const Keypad = ({ states }) => {
   };
   const operatorHandler = operator => {
     if (operators[0] && operator === '-') {
-      addToCurr(operator);
+      if (!currNum.includes('-')) {
+        if (!currNum) {
+          addToCurr(operator);
+          addToEquation(operator);
+        }
+      }
     } else {
       if (getLastItemEquation() === '.' && getLastItemCurr() === '.') {
         removeFromEquation(1);
@@ -300,6 +304,6 @@ const Keypad = ({ states }) => {
 };
 
 Keypad.propTypes = {
-  states: PropTypes.object
+  states: PropTypes.object.isRequired
 };
 export default Keypad;

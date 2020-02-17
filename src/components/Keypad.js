@@ -188,12 +188,15 @@ const Keypad = ({ states }) => {
 
     useEffect(() => {
       const handle = e => {
+        e.preventDefault();
+        e.stopPropagation();
         if (e.key === key) {
           callbackRef.current(e);
         }
       };
-      window.addEventListener('keyup', handle);
-      return () => window.removeEventListener('keypup', handle);
+
+      window.addEventListener('keydown', handle);
+      return () => window.removeEventListener('keydown', handle);
     }, [key]);
   };
 

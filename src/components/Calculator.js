@@ -78,7 +78,8 @@ const Calculator = () => {
   }, [operators]);
 
   const calculate = () => {
-    const result = operate(operators[0], total, parseFloat(currNum));
+    let result = operate(operators[0], total, parseFloat(currNum));
+    result = Math.round(result);
     return result;
   };
 

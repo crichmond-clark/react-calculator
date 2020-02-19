@@ -108,16 +108,9 @@ const Calculator = () => {
     }
     if (regexTripleMinus.test(fullEquation) {
         removeFromEquation(1);
-  }, [operators, removeOperator]);
+  }, [operators, removeOperator, fullEquation, removeFromEquation]);
   
-  useEffect(() => {
-    if (operators.length > 1) {
-      removeOperator();
-    }
-    if (fullEquation.length > 34) {
-      setFullEquation(operators[0]);
-    }
-  }, [fullEquation]);
+  
 
   const displayStates = {
     total,

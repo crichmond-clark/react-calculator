@@ -136,7 +136,8 @@ const Keypad = ({ states }) => {
   };
   const operatorHandler = operator => {
     if (operators[0] && operator === '-') {
-      addOperator(operator)
+      addOperator(operator);
+      doCalulcation();
       if (!currNum.includes('-')) {
         if (!currNum) {
           addToCurr(operator);

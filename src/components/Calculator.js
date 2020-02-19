@@ -5,7 +5,7 @@ import Display from './Display';
 import Keypad from './Keypad';
 
 const Div = styled.div`
-  ${tw`text-gray-600 border-black border-solid p-1`};
+  ${tw`p-1`};
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-column: 2 / 3;
@@ -13,7 +13,9 @@ const Div = styled.div`
   gap: 0.1rem;
   font-family: 'Varela Round', sans-serif;
   border: 2px solid black;
-  @media (max-width: 500px) {
+  border-radius: 5px;
+  height: 90vh;
+  @media (max-width: 768px) {
     height: 95vh;
   }
 `;

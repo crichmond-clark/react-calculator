@@ -9,7 +9,7 @@ const KeypadContainer = styled.div`
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.1rem;
+  gap: 0.22rem;
 `;
 const DigitPad = styled.div`
   display: grid;
@@ -23,21 +23,26 @@ const OperatorPad = styled.div`
 `;
 
 const Digit = styled.div`
-  ${tw`text-center bg-blue-200 p-5 rounded text-xl`};
+  ${tw`text-center rounded text-xl`};
   display: grid;
   align-content: center;
+  background: #333333;
+  color: #f2f2f2;
 `;
 const Digit0 = styled.div`
   grid-column: 1 / -1;
-  ${tw`text-center bg-blue-200 p-5 border-none rounded text-xl`};
+  ${tw`text-center border-none rounded text-xl`};
   display: grid;
   align-content: center;
+  background: #333333;
+  color: #f2f2f2;
 `;
 
 const Operator = styled.div`
-  ${tw`text-center bg-orange-200 rounded text-xl`};
+  ${tw`text-center rounded text-xl`};
   display: grid;
   align-content: center;
+  background: #fc9f40;
 `;
 
 //COMPONENT

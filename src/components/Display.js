@@ -4,11 +4,14 @@ import tw from 'tailwind.macro';
 import PropTypes from 'prop-types';
 
 const Div = styled.div`
-  ${tw`bg-gray-300 text-center rounded text-2xl tracking-wider`};
+  ${tw`text-center rounded text-2xl tracking-wider`};
   grid-column: 1 / -1;
   min-height: 10vh;
   display: grid;
   word-break: break-all;
+  color: #f2f2f2;
+  border: 2px solid black;
+  margin-bottom: 5px;
   .calc {
     justify-self: end;
     padding-right: 0.5rem;

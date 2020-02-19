@@ -15,6 +15,7 @@ const Div = styled.div`
   .calc {
     justify-self: end;
     padding-right: 0.5rem;
+    align-self: end;
   }
   @media (max-width: 768px) {
     font-size: 1.25rem;

@@ -9,9 +9,13 @@ const Div = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-column: 2 / 3;
+  grid-row: 2 / 3;
   gap: 0.1rem;
   font-family: 'Varela Round', sans-serif;
   border: 2px solid black;
+  @media (max-width: 500px) {
+    height: 95vh;
+  }
 `;
 
 const Calculator = () => {

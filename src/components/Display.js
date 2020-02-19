@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const Div = styled.div`
   ${tw`bg-gray-300 text-center rounded text-2xl tracking-wider`};
   grid-column: 1 / -1;
-  min-height: 20vh;
+  min-height: 10vh;
   display: grid;
   word-break: break-all;
   .calc {
@@ -17,7 +17,7 @@ const Div = styled.div`
 
 const EquationDiv = styled.div`
   ${tw`text-sm p-1`}
-  min-height: 5vh;
+  /* min-height: 5vh; */
   justify-self: start;
   align-self: start;
   display: flex;

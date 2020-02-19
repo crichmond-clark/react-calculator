@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 const Div = styled.div`
   ${tw`text-center rounded text-2xl tracking-wider`};
   grid-column: 1 / -1;
-  min-height: 10vh;
   display: grid;
-  word-break: break-all;
+  min-height: 10vh;
   color: #f2f2f2;
   border: 2px solid black;
   margin-bottom: 5px;
+  word-break: break-all;
   .calc {
     justify-self: end;
     padding-right: 0.5rem;
@@ -20,7 +20,7 @@ const Div = styled.div`
 
 const EquationDiv = styled.div`
   ${tw`text-sm p-1`}
-  /* min-height: 5vh; */
+
   justify-self: start;
   align-self: start;
   display: flex;

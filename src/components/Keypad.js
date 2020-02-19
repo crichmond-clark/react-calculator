@@ -28,6 +28,9 @@ const Digit = styled.div`
   align-content: center;
   background: #333333;
   color: #f2f2f2;
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
 const Digit0 = styled.div`
   grid-column: 1 / -1;
@@ -36,6 +39,9 @@ const Digit0 = styled.div`
   align-content: center;
   background: #333333;
   color: #f2f2f2;
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
 
 const Operator = styled.div`
@@ -43,6 +49,9 @@ const Operator = styled.div`
   display: grid;
   align-content: center;
   background: #fc9f40;
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
 
 //COMPONENT

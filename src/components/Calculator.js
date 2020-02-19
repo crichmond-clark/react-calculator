@@ -12,7 +12,7 @@ const Div = styled.div`
   grid-row: 2 / 3;
   gap: 0.1rem;
   font-family: 'Varela Round', sans-serif;
-  border: 2px solid black;
+  border: 3px solid black;
   border-radius: 5px;
   height: 90vh;
   @media (max-width: 768px) {

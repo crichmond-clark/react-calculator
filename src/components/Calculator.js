@@ -25,6 +25,9 @@ const Calculator = () => {
   const [operators, setOperators] = useState([]);
   const [currNum, setCurrNum] = useState('');
   const [fullEquation, setFullEquation] = useState('');
+  
+  const regexTripleMinus = /---/
+  
   const addToCurr = item => {
     setCurrNum(`${currNum + item}`);
   };
@@ -103,7 +106,18 @@ const Calculator = () => {
     if (fullEquation.length > 34) {
       setFullEquation(operators[0]);
     }
+    if (regexTripleMinus.test(fullEquation) {
+        removeFromEquation(1);
   }, [operators, removeOperator]);
+  
+  useEffect(() => {
+    if (operators.length > 1) {
+      removeOperator();
+    }
+    if (fullEquation.length > 34) {
+      setFullEquation(operators[0]);
+    }
+  }, [fullEquation]);
 
   const displayStates = {
     total,

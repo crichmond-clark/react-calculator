@@ -106,7 +106,7 @@ const Calculator = () => {
       setFullEquation(operators[0]);
     }
    
-  }, [operators, removeOperator, fullEquation,]);
+  }, [operators, removeOperator]);
   
   
 

@@ -4,7 +4,7 @@ import tw from 'tailwind.macro';
 import PropTypes from 'prop-types';
 
 const Div = styled.div`
-  ${tw`text-center rounded text-2xl tracking-wider`};
+  ${tw`text-center rounded text-4xl tracking-wider`};
   grid-column: 1 / -1;
   display: grid;
   min-height: 10vh;
@@ -15,6 +15,9 @@ const Div = styled.div`
   .calc {
     justify-self: end;
     padding-right: 0.5rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
   }
 `;
 

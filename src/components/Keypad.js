@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import tw from 'tailwind.macro';
 import PropTypes from 'prop-types';
+import { setConstantValue, isGetAccessor } from 'typescript';
 
 //STYLING
 
@@ -86,107 +87,95 @@ const Keypad = ({ states }) => {
   const {
     total,
     operators,
-    currNum,
-    addToCurr,
+    nextNum,
+    fullEquation,
+    setTotal,
+    setNextNum,
+    setFullEquation,
     addOperator,
     removeOperator,
-    setTotal,
-    setCurrNum,
-    calculate,
-    fullEquation,
+    addToNext,
+    removeFromNext,
     addToEquation,
     removeFromEquation,
-    removeFromCurr,
-    getLastItemEquation,
-    getLastItemCurr,
+    calculate,
     reset
   } = states;
-
-  const opCheck = '+-÷×';
+  const checkNum = Number.isNaN(parseFloat(nextNum.join('')));
   //METHODS
-
-  const doCalculation = () => {
-    if ((total && Number.isNaN(parseFloat(currNum)) === false) || total === 0) {
-      const result = calculate();
-      setTotal(result);
-      setCurrNum('');
-    }
-    setCurrNum('');
-  };
-
-  const checkEquation = () => {
-    const check = fullEquation.slice(-1);
-    if (!opCheck.includes(check)) {
-      return true;
+  const setInitialTotal = operator => {
+    if (total === 0 && !checkNum) {
+      setTotal(parseFloat(nextNum.join('')));
+      setNextNum([]);
+      addOperator(operator);
     }
   };
-
+  const checkAndCalc = operator => {
+    if (total === 0 && !operators[0]) {
+      addOperator(operator);
+    }
+    if (total > 0 && !checkNum) {
+      addOperator(operator);
+    }
+    if (total && operators[0]) {
+      if (!checkNum) {
+        calculate();
+      }
+    }
+  };
+  const addInitialDigitToEquation = digit => {
+    let zeroDigit = digit;
+    if (total === 0) {
+      addToNext(digit);
+      setFullEquation([...fullEquation, digit]);
+    }
+  };
+  const addInitialOpToEquation = operator => {
+    if (total === 0 && nextNum.length > 0) {
+      setFullEquation([...fullEquation, operator]);
+    }
+  };
+  //handlers
   const digitHandler = digit => {
-    if (!total || (total && operators.length === 1)) {
-      addToCurr(digit);
-      addToEquation(digit);
+    addInitialDigitToEquation(digit);
+    if (total > 0) {
+      if (!operators[0]) {
+        setTotal(0);
+        addToNext(digit);
+      } else {
+        addToNext(digit);
+      }
     }
   };
 
-  const decimalHandler = () => {
-    if (getLastItemCurr() !== '.') {
-      addToCurr(keypad.operators.decimal);
-      addToEquation(keypad.operators.decimal);
+  const decimalHandler = decimal => {
+    addInitialDigitToEquation(decimal);
+    if (!nextNum.includes(decimal)) {
+      addToNext(decimal);
     }
   };
   const operatorHandler = operator => {
-    if (operators[0] && operator === '-') {
-      if (fullEquation.slice(-2) !== '--'){
-        addOperator(operator);
-        addToEquation(operator);
-        doCalculation();
-       }
-      
-      if (!currNum.includes('-')) {
-        if (!currNum) {
-          addToCurr(operator);
-          addToEquation(operator);
-        }
-      }
-    } else {
-      if (getLastItemEquation() === '.' && getLastItemCurr() === '.') {
-        removeFromEquation(1);
-      }
-      if (checkEquation()) {
-        addToEquation(operator);
-      }
-      if (total === 0 || fullEquation === '') {
-        addOperator(operator);
-        addToEquation(operator);
-      }
-      if (
-        (currNum && getLastItemCurr() !== '.') ||
-        (total && operators.length === 0)
-      ) {
-        addOperator(operator);
-      }
-      if (!total && currNum) {
-        setTotal(parseFloat(currNum));
-        setCurrNum('');
-      }
-      if (getLastItemCurr() === '.' && currNum.length === 1) {
-        removeFromEquation(1);
-        removeFromCurr();
-      } else {
-        doCalculation();
-      }
+    addInitialOpToEquation(operator);
+    //set total to the current NextNumber if total is currently 0
+    setInitialTotal(operator);
+    checkAndCalc(operator);
+  };
+
+  const subtractHandler = subtract => {
+    addInitialOpToEquation(subtract);
+    setInitialTotal(subtract);
+    //adds '-' to the nextNum at the initial state
+    if (operators.length < 2 && !nextNum[0]) {
+      addToNext(subtract);
     }
+    //check nextnum is a valid number and calculates
+    checkAndCalc(subtract);
   };
 
   const equalsHandler = () => {
-    doCalculation();
-    removeOperator();
-    if (getLastItemEquation() === '.') {
-      removeFromEquation(1);
-    }
-    if (operators[0] && total && !currNum) {
-      const num = currNum.length + 1;
-      removeFromEquation(num);
+    if (total && !checkNum) {
+      calculate();
+      removeOperator();
     }
   };
 
@@ -194,24 +183,7 @@ const Keypad = ({ states }) => {
     reset();
   };
 
-  const deleteHandler = () => {
-    if (!currNum && operators[0] && !currNum) {
-      removeOperator();
-      removeFromEquation(1);
-    }
-    if (total === 0) {
-      removeFromCurr();
-      removeFromEquation(1);
-    }
-    if (total && currNum && operators[0]) {
-      removeFromCurr();
-      removeFromEquation(1);
-    }
-    if (currNum === '.') {
-      removeFromCurr();
-      removeFromEquation(1);
-    }
-  };
+  const deleteHandler = () => {};
   const useKey = (key, cb) => {
     const callbackRef = useRef(cb);
 
@@ -248,7 +220,7 @@ const Keypad = ({ states }) => {
   //Operators
   useKey(keypad.operators.add, () => operatorHandler(keypad.operators.add));
   useKey(keypad.operators.subtract, () =>
-    operatorHandler(keypad.operators.subtract)
+    subtractHandler(keypad.operators.subtract)
   );
   useKey(keypad.operators.divide, () =>
     operatorHandler(keypad.operators.divide)
@@ -306,7 +278,7 @@ const Keypad = ({ states }) => {
         <Operator onClick={() => operatorHandler(keypad.operators.add)}>
           {keypad.operators.add}
         </Operator>
-        <Operator onClick={() => operatorHandler(keypad.operators.subtract)}>
+        <Operator onClick={() => subtractHandler(keypad.operators.subtract)}>
           {keypad.operators.subtract}
         </Operator>
         <Operator onClick={() => operatorHandler(keypad.operators.multiply)}>
@@ -315,7 +287,9 @@ const Keypad = ({ states }) => {
         <Operator onClick={() => operatorHandler(keypad.operators.divide)}>
           {keypad.operators.divide}
         </Operator>
-        <Operator onClick={decimalHandler}>{keypad.operators.decimal}</Operator>
+        <Operator onClick={() => decimalHandler(keypad.operators.decimal)}>
+          {keypad.operators.decimal}
+        </Operator>
         <Operator onClick={equalsHandler}>{keypad.operators.equals}</Operator>
       </OperatorPad>
     </KeypadContainer>

@@ -42,14 +42,13 @@ const Display = props => {
   };
   return (
     <Div>
-      <EquationDiv className="mango">{props.states.fullEquation}</EquationDiv>
+      <EquationDiv className="mango">
+        {props.states.fullEquation.join('')}
+      </EquationDiv>
       <span className="calc">
-        {props.states.total === 0 &&
-        (props.states.currNum || props.states.operators[0] === '-')
-          ? null
-          : checkTotal()}
-        {checkTotal() === 'Error' ? null : props.states.operators[0]}
-        {props.states.currNum}
+        {props.states.total}
+        {props.states.operators[0]}
+        {props.states.nextNum}
       </span>
     </Div>
   );

@@ -23,41 +23,39 @@ const Div = styled.div`
 const Calculator = () => {
   const [total, setTotal] = useState(0);
   const [operators, setOperators] = useState([]);
-  const [currNum, setCurrNum] = useState('');
-  const [fullEquation, setFullEquation] = useState('');
-  
-  
-  const addToCurr = item => {
-    setCurrNum(`${currNum + item}`);
-  };
-  const removeFromCurr = useCallback(() => {
-    const newNum = currNum.slice(0, -1);
-    setCurrNum(`${newNum}`);
-  }, [currNum]);
-
-  const getLastItemCurr = () => {
-    const check = currNum.slice(-1);
-    return check;
-  };
-  const addToEquation = item => {
-    setFullEquation(`${fullEquation + item}`);
-  };
-
-  const removeFromEquation = useCallback(
-    numOfChars => {
-      const newEquation = fullEquation.slice(0, -numOfChars);
-      setFullEquation(newEquation);
-    },
-    [fullEquation]
-  );
-
-  const getLastItemEquation = () => {
-    const check = fullEquation.slice(-1);
-    return check;
-  };
+  const [nextNum, setNextNum] = useState([]);
+  const [fullEquation, setFullEquation] = useState([]);
 
   const addOperator = operator => {
     setOperators([...operators, operator]);
+  };
+  const removeOperator = useCallback(() => {
+    const tempOps = [...operators];
+    tempOps.shift();
+    setOperators([...tempOps]);
+  }, [operators]);
+  const addToNext = item => {
+    setNextNum([...nextNum, item]);
+  };
+  const removeFromNext = num => {
+    const newNext = nextNum.slice(0, -num);
+    setNextNum([...newNext]);
+  };
+  // const addToEquation = () => {
+  //   let tempNum = [...nextNum];
+  //   if (tempNum.slice(-1)[0] === '.') {
+  //     tempNum = tempNum.slice(0, -1);
+  //   } else if (tempNum.slice(0, 1)[0] === '.') {
+  //     tempNum = [];
+  //   }
+
+  //   const equationItem = `${tempNum.join('') + operators[0]}`;
+  //   setFullEquation([...fullEquation, equationItem]);
+  // };
+
+  const removeFromEquation = num => {
+    const newEquation = fullEquation.slice(0, -num);
+    setFullEquation([...newEquation]);
   };
 
   const add = (num1, num2) => num1 + num2;
@@ -79,62 +77,56 @@ const Calculator = () => {
     }
   }, []);
 
-  const removeOperator = useCallback(() => {
-    const tempOps = [...operators];
-    tempOps.shift();
-    setOperators([...tempOps]);
-  }, [operators]);
-
-  const calculate = () => {
-    let result;
-    result = operate(operators[0], total, parseFloat(currNum)).toFixed(2);
-    result = parseFloat(result);
-    return result;
-  };
+  const calculate = useCallback(() => {
+    const next = parseFloat(nextNum.join(''));
+    const result = operate(operators[0], total, next);
+    // addToEquation();
+    setTotal(result);
+    setNextNum([]);
+  }, [
+    nextNum,
+    setTotal,
+    total,
+    removeOperator,
+    setNextNum,
+    operate,
+    operators
+  ]);
 
   const reset = () => {
     setTotal(0);
-    setCurrNum('');
+    setNextNum([]);
     setOperators([]);
-    setFullEquation('');
+    setFullEquation([]);
   };
   useEffect(() => {
     if (operators.length > 1) {
       removeOperator();
     }
-    if (fullEquation.length > 34) {
-      setFullEquation(operators[0]);
-    }
-   
-  }, [operators, removeOperator]);
-  
-  
+  }, [operators, removeOperator, calculate]);
 
   const displayStates = {
     total,
     setTotal,
-    currNum,
+    nextNum,
     operators,
     fullEquation
   };
   const KeypadStates = {
     total,
-    currNum,
+    nextNum,
     operators,
     fullEquation,
+    setTotal,
+    setFullEquation,
+    setNextNum,
     addOperator,
     removeOperator,
-    setTotal,
-    setCurrNum,
-    setOperators,
-    addToCurr,
-    calculate,
-    addToEquation,
-    setFullEquation,
+    // addToEquation,
+    addToNext,
+    removeFromNext,
     removeFromEquation,
-    removeFromCurr,
-    getLastItemEquation,
-    getLastItemCurr,
+    calculate,
     reset
   };
 

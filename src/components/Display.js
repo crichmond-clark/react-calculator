@@ -27,15 +27,14 @@ const EquationDiv = styled.div`
 
   justify-self: start;
   align-self: start;
+  text-align: left;
   display: flex;
 `;
 
 const Display = props => {
   return (
     <Div>
-      <EquationDiv className="mango">
-        {props.states.fullEquation.join('')}
-      </EquationDiv>
+      <EquationDiv>{props.states.fullEquation.join('')}</EquationDiv>
       <span className="calc">
         {props.states.total === 0 && props.states.nextNum[0]
           ? null

@@ -41,17 +41,21 @@ const Calculator = () => {
     const newNext = nextNum.slice(0, -num);
     setNextNum([...newNext]);
   };
-  // const addToEquation = () => {
-  //   let tempNum = [...nextNum];
-  //   if (tempNum.slice(-1)[0] === '.') {
-  //     tempNum = tempNum.slice(0, -1);
-  //   } else if (tempNum.slice(0, 1)[0] === '.') {
-  //     tempNum = [];
-  //   }
 
-  //   const equationItem = `${tempNum.join('') + operators[0]}`;
-  //   setFullEquation([...fullEquation, equationItem]);
-  // };
+  const addToEquation = item => {
+    setFullEquation([...fullEquation, item]);
+  };
+  const addNextNumToEquation = () => {
+    let tempNum = [...nextNum];
+    if (tempNum.slice(-1)[0] === '.') {
+      tempNum = tempNum.slice(0, -1);
+    } else if (tempNum.slice(0, 1)[0] === '.') {
+      tempNum = ['0', '.', tempNum.slice(-1)[0]];
+    }
+
+    const equationItem = `${operators[0] + tempNum.join('')}`;
+    setFullEquation([...fullEquation, equationItem]);
+  };
 
   const removeFromEquation = num => {
     const newEquation = fullEquation.slice(0, -num);
@@ -79,8 +83,8 @@ const Calculator = () => {
 
   const calculate = useCallback(() => {
     const next = parseFloat(nextNum.join(''));
-    const result = operate(operators[0], total, next);
-    // addToEquation();
+    const result = parseFloat(operate(operators[0], total, next).toFixed(2));
+    addNextNumToEquation();
     setTotal(result);
     setNextNum([]);
   }, [
@@ -90,7 +94,8 @@ const Calculator = () => {
     removeOperator,
     setNextNum,
     operate,
-    operators
+    operators,
+    addNextNumToEquation
   ]);
 
   const reset = () => {
@@ -102,6 +107,9 @@ const Calculator = () => {
   useEffect(() => {
     if (operators.length > 1) {
       removeOperator();
+    }
+    if (fullEquation.length > 20) {
+      setFullEquation([]);
     }
   }, [operators, removeOperator, calculate]);
 
@@ -122,7 +130,8 @@ const Calculator = () => {
     setNextNum,
     addOperator,
     removeOperator,
-    // addToEquation,
+    addToEquation,
+    addNextNumToEquation,
     addToNext,
     removeFromNext,
     removeFromEquation,

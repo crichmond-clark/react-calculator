@@ -111,7 +111,14 @@ const Keypad = ({ states }) => {
 
   //handlers
   const digitHandler = digit => {
-    addToNext(digit);
+    if (total === 0) {
+      addToNext(digit);
+    } else if (total !== 0 && operators.length === 1) {
+      addToNext(digit);
+    } else if (total !== 0 && operators.length === 0) {
+      setTotal(0);
+      addToNext(digit);
+    }
   };
 
   const decimalHandler = decimal => {
@@ -144,8 +151,6 @@ const Keypad = ({ states }) => {
       addOperator(subtract);
       calculate();
     }
-
-    //adds '-' to the nextNum at the initial state
   };
 
   const equalsHandler = () => {

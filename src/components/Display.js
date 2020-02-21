@@ -31,22 +31,15 @@ const EquationDiv = styled.div`
 `;
 
 const Display = props => {
-  const checkTotal = () => {
-    let result;
-    if (Number.isNaN(props.states.total)) {
-      result = 'Error';
-    } else {
-      result = props.states.total;
-    }
-    return result;
-  };
   return (
     <Div>
       <EquationDiv className="mango">
         {props.states.fullEquation.join('')}
       </EquationDiv>
       <span className="calc">
-        {props.states.total}
+        {props.states.total === 0 && props.states.nextNum[0]
+          ? null
+          : props.states.total}
         {props.states.operators[0]}
         {props.states.nextNum}
       </span>

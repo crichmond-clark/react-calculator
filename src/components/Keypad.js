@@ -115,6 +115,14 @@ const Keypad = ({ states }) => {
       addToEquation(digit);
     }
   };
+  const addFirstSubtractToEquation = subtract => {
+    if (total === 0 && !operators[0]) {
+      if(fullEquation.length === 0) {
+        addToEquation(subtract);
+      }
+     }
+  };
+
 
   //handlers
   const digitHandler = digit => {
@@ -149,7 +157,7 @@ const Keypad = ({ states }) => {
   };
 
   const subtractHandler = subtract => {
-    addFirstNumToEquation(subtract);
+    addFirstSubtractToEquation(subtract);
     if ((total === 0 && !nextNum[0]) || (total !== 0 && operators[0])) {
       if (!nextNum.includes('-')) {
         addToNext(subtract);

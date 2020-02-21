@@ -127,8 +127,6 @@ const Keypad = ({ states }) => {
     //set total to the current NextNumber if total is currently 0
     if (total === 0 && checkNum) {
       setInitialTotal(operator);
-    } else if (total === 0 && checkNum) {
-      setInitialTotal(operator);
     } else if (total > 0 && !operators[0]) {
       addOperator(operator);
     } else if (checkNum) {

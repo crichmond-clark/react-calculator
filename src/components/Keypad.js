@@ -101,79 +101,55 @@ const Keypad = ({ states }) => {
     calculate,
     reset
   } = states;
-  const checkNum = Number.isNaN(parseFloat(nextNum.join('')));
+  const checkNum = !Number.isNaN(parseFloat(nextNum.join('')));
   //METHODS
   const setInitialTotal = operator => {
-    if (total === 0 && !checkNum) {
-      setTotal(parseFloat(nextNum.join('')));
-      setNextNum([]);
-      addOperator(operator);
-    }
+    setTotal(parseFloat(nextNum.join('')));
+    setNextNum([]);
+    addOperator(operator);
   };
-  const checkAndCalc = operator => {
-    if (total === 0 && !operators[0]) {
-      addOperator(operator);
-    }
-    if (total > 0 && !checkNum) {
-      addOperator(operator);
-    }
-    if (total && operators[0]) {
-      if (!checkNum) {
-        calculate();
-      }
-    }
-  };
-  const addInitialDigitToEquation = digit => {
-    let zeroDigit = digit;
-    if (total === 0) {
-      addToNext(digit);
-      setFullEquation([...fullEquation, digit]);
-    }
-  };
-  const addInitialOpToEquation = operator => {
-    if (total === 0 && nextNum.length > 0) {
-      setFullEquation([...fullEquation, operator]);
-    }
-  };
+
   //handlers
   const digitHandler = digit => {
-    addInitialDigitToEquation(digit);
-    if (total > 0) {
-      if (!operators[0]) {
-        setTotal(0);
-        addToNext(digit);
-      } else {
-        addToNext(digit);
-      }
-    }
+    addToNext(digit);
   };
 
   const decimalHandler = decimal => {
-    addInitialDigitToEquation(decimal);
     if (!nextNum.includes(decimal)) {
       addToNext(decimal);
     }
   };
   const operatorHandler = operator => {
-    addInitialOpToEquation(operator);
     //set total to the current NextNumber if total is currently 0
-    setInitialTotal(operator);
-    checkAndCalc(operator);
+    if (total === 0 && checkNum) {
+      setInitialTotal(operator);
+    } else if (total === 0 && checkNum) {
+      setInitialTotal(operator);
+    } else if (total > 0 && !operators[0]) {
+      addOperator(operator);
+    } else if (checkNum) {
+      addOperator(operator);
+      calculate();
+    }
   };
 
   const subtractHandler = subtract => {
-    addInitialOpToEquation(subtract);
-    setInitialTotal(subtract);
-    //adds '-' to the nextNum at the initial state
     if (operators.length < 2 && !nextNum[0]) {
       addToNext(subtract);
+    } else if (total === 0 && checkNum) {
+      setInitialTotal(subtract);
+    } else if (total > 0 && !operators[0]) {
+      addOperator(subtract);
+    } else if (checkNum) {
+      addOperator(subtract);
+      calculate();
     }
-    //check nextnum is a valid number and calculates
-    checkAndCalc(subtract);
+
+    //adds '-' to the nextNum at the initial state
   };
 
   const equalsHandler = () => {
-    if (total && !checkNum) {
+    if (total && checkNum) {
       calculate();
       removeOperator();
     }
@@ -216,7 +192,7 @@ const Keypad = ({ states }) => {
   useKey('2', () => digitHandler('2'));
   useKey('3', () => digitHandler('3'));
   useKey('0', () => digitHandler('0'));
-  useKey('.', decimalHandler);
+  useKey('.', () => decimalHandler('.'));
   //Operators
   useKey(keypad.operators.add, () => operatorHandler(keypad.operators.add));
   useKey(keypad.operators.subtract, () =>
@@ -290,6 +266,7 @@ const Keypad = ({ states }) => {
         <Operator onClick={() => decimalHandler(keypad.operators.decimal)}>
           {keypad.operators.decimal}
         </Operator>
+
         <Operator onClick={equalsHandler}>{keypad.operators.equals}</Operator>
       </OperatorPad>
     </KeypadContainer>

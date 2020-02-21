@@ -111,11 +111,8 @@ const Keypad = ({ states }) => {
 
   //handlers
   const digitHandler = digit => {
-    if (total === 0) {
-      addToNext(digit);
-    } else if (total !== 0 && operators.length === 1) {
-      addToNext(digit);
-    } else if (total !== 0 && operators.length === 0) {
+    addToNext(digit);
+    if (total !== 0 && !operators[0]) {
       setTotal(0);
       addToNext(digit);
     }
@@ -141,11 +138,14 @@ const Keypad = ({ states }) => {
   };
 
   const subtractHandler = subtract => {
-    if (operators.length < 2 && !nextNum[0]) {
-      addToNext(subtract);
-    } else if (total === 0 && checkNum) {
+    if ((total === 0 && !nextNum[0]) || (total !== 0 && operators[0])) {
+      if (!nextNum.includes('-')) {
+        addToNext(subtract);
+      }
+    }
+    if (total === 0 && checkNum) {
       setInitialTotal(subtract);
-    } else if (total > 0 && !operators[0]) {
+    } else if (total !== 0 && operators.length === 0) {
       addOperator(subtract);
     } else if (checkNum) {
       addOperator(subtract);

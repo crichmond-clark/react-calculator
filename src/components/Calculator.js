@@ -84,9 +84,13 @@ const Calculator = () => {
   const calculate = useCallback(() => {
     const next = parseFloat(nextNum.join(''));
     const result = parseFloat(operate(operators[0], total, next).toFixed(2));
-    addNextNumToEquation();
-    setTotal(result);
-    setNextNum([]);
+    if (result === 0) {
+      reset();
+    } else {
+      addNextNumToEquation();
+      setTotal(result);
+      setNextNum([]);
+    }
   }, [
     nextNum,
     setTotal,

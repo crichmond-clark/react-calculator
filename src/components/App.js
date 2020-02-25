@@ -8,6 +8,9 @@ const Div = styled.div`
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: 1fr 3fr 1fr;
   height: 95vh;
+  @media (max-width: 1400px) {
+    grid-template-columns: 1fr 5fr 1fr;
+  }
   @media (max-width: 768px) {
     display: block;
   }

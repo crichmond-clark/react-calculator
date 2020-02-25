@@ -172,7 +172,7 @@ const Keypad = ({ states }) => {
   };
 
   const equalsHandler = () => {
-    if (total && checkNum) {
+    if (checkNum) {
       calculate();
       removeOperator();
     }

@@ -135,7 +135,9 @@ const Keypad = ({ states }) => {
   };
 
   const decimalHandler = decimal => {
-    addFirstNumToEquation(decimal);
+    if (!fullEquation.includes('.')) {
+      addFirstNumToEquation(decimal);
+    }
     if (fullEquation.length === 0) {
       setFullEquation(['0', decimal]);
     }

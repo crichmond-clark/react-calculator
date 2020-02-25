@@ -97,6 +97,7 @@ const Keypad = ({ states }) => {
     addToNext,
     removeFromNext,
     addToEquation,
+    addNextNumToEquation,
     removeFromEquation,
     calculate,
     reset
@@ -109,8 +110,23 @@ const Keypad = ({ states }) => {
     addOperator(operator);
   };
 
+  const addFirstNumToEquation = digit => {
+    if (total === 0 && !operators[0]) {
+      addToEquation(digit);
+    }
+  };
+  const addFirstSubtractToEquation = subtract => {
+    if (total === 0 && !operators[0]) {
+      if(fullEquation.length === 0) {
+        addToEquation(subtract);
+      }
+     }
+  };
+
+
   //handlers
   const digitHandler = digit => {
+    addFirstNumToEquation(digit);
     addToNext(digit);
     if (total !== 0 && !operators[0]) {
       setTotal(0);
@@ -119,12 +135,15 @@ const Keypad = ({ states }) => {
   };
 
   const decimalHandler = decimal => {
+    addFirstNumToEquation(decimal);
+    if (fullEquation.length === 0) {
+      setFullEquation(['0', decimal]);
+    }
     if (!nextNum.includes(decimal)) {
       addToNext(decimal);
     }
   };
   const operatorHandler = operator => {
-    //set total to the current NextNumber if total is currently 0
     if (total === 0 && checkNum) {
       setInitialTotal(operator);
     } else if (total > 0 && !operators[0]) {
@@ -136,6 +155,7 @@ const Keypad = ({ states }) => {
   };
 
   const subtractHandler = subtract => {
+    addFirstSubtractToEquation(subtract);
     if ((total === 0 && !nextNum[0]) || (total !== 0 && operators[0])) {
       if (!nextNum.includes('-')) {
         addToNext(subtract);

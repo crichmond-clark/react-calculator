@@ -29,6 +29,7 @@ const EquationDiv = styled.div`
   align-self: start;
   text-align: left;
   display: flex;
+  letter-spacing: 0.2rem;
 `;
 
 const Display = props => {

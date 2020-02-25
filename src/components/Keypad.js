@@ -117,12 +117,11 @@ const Keypad = ({ states }) => {
   };
   const addFirstSubtractToEquation = subtract => {
     if (total === 0 && !operators[0]) {
-      if(fullEquation.length === 0) {
+      if (fullEquation.length === 0) {
         addToEquation(subtract);
       }
-     }
+    }
   };
-
 
   //handlers
   const digitHandler = digit => {
@@ -130,6 +129,7 @@ const Keypad = ({ states }) => {
     addToNext(digit);
     if (total !== 0 && !operators[0]) {
       setTotal(0);
+      setFullEquation([digit]);
       addToNext(digit);
     }
   };
@@ -182,7 +182,18 @@ const Keypad = ({ states }) => {
     reset();
   };
 
-  const deleteHandler = () => {};
+  const deleteHandler = () => {
+    fullEquation.forEach(element => {
+      if (element.length === 1 && total === 0) {
+        removeFromEquation(1);
+      }
+    });
+    if (nextNum.length > 0) {
+      removeFromNext(1);
+    } else if (operators.length === 1) {
+      removeOperator();
+    }
+  };
   const useKey = (key, cb) => {
     const callbackRef = useRef(cb);
 
